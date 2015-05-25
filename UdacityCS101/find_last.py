@@ -10,7 +10,6 @@
 
 def find_last(a,b):
     
-    
     stop = 0
     while True:
         start = a.find(b,stop)
@@ -28,10 +27,6 @@ def find_last(a,b):
        
         
         
-
-
-
-
 
 print find_last('aaaa', 'a')
 #>>> 3
