@@ -16,26 +16,24 @@ If you have time, come back to this problem after you've had a break and cleared
 '''
 
 s = 'azcbobobegghakl'
-count = 0
+
 ans = [s[0]]
 run = 0
 sub = []
 
-for let in s:
+for count in range(len(s)):
     
     if count>0 and s[count]>=s[count-1]:
         if run==0:
             sub.append(s[count-1])
         sub.append(s[count])
-        
-        
         ans.append(''.join(sub))
         run = run +1
     else:
         run = 0
         sub = []
     
-    count = count + 1
+    
     
 
 
