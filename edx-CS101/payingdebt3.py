@@ -30,6 +30,7 @@ The code you paste into the following box should not specify the values for the 
 '''
 
 # Paste your code into this box
+
 unpaid = balance
 mini = balance/12
 maxa = (balance*(1+annualInterestRate)**12)/12
