@@ -22,6 +22,11 @@ int main(int argc, char* argv[])
         {
             printf("%c", (text[i]-97+k)%26 + 97);  
         }
+        
+        else
+        {
+            printf(" ");
+        }
     }
     return 0;
     
