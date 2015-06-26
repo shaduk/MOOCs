@@ -18,12 +18,18 @@ class Queue:
     def view(self):
         return self.items
     
+def hotPotato(namelist,num):
+    q = Queue()
     
-q = Queue()
-q.enqueue(2)
-q.enqueue(5)
-q.enqueue(8)
-print q.dequeue()
-print q.view()
-print q.size()
+    for name in namelist:
+        q.enqueue(name)
+    
+    while q.size()>1:
+        print q.view()
+        for i in range(num):
+            q.enqueue(q.dequeue())
+        q.dequeue()
         
+    return q.dequeue()
+    
+print(hotPotato(["Bill","David","Susan","Jane","Kent","Brad"],7))
