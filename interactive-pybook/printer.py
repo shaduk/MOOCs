@@ -93,4 +93,4 @@ def newPrintTask():
         return False
 
 for i in range(10):
-    simulation(3600,6)
+    simulation(3600,7)
