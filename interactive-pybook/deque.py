@@ -21,7 +21,14 @@ class Deque:
     def size(self):
         return len(self.items)
         
+    def view(self):
+        return self.items
     
-    
-    
-    
+q = Deque()
+q.addFront(3)
+q.addRear(4)
+q.addRear(4)
+q.addRear(6)
+q.addRear(9)
+q.addFront(9)
+print q.view()
