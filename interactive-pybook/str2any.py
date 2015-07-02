@@ -9,4 +9,4 @@ def toStr(n,base):
    else:
       return toStr(n//base,base) + convertString[n%base]
 
-print(toStr(1453,16))
+print(toStr(10,2))
