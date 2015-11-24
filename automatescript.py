@@ -55,10 +55,13 @@ poqaddata = []          #Store QAD data in a list to write in excel
 ponum = ''          
 pops = ''               
 poqty = 0
+
 if listpo:                  #if any items in listpo
     listpo1 = removedupli(listpo)   #Remove duplicates from list PO and store in new variable
     for value in listpo1:
         i = 3                   #Start from 3rd row
+        sumvssqty = 0
+        sumqadqty = 0
         while(1==1):                #Keep continuing unless there is a break
             
             i = i + 1
@@ -71,25 +74,40 @@ if listpo:                  #if any items in listpo
                 
                 pops = str(sheet['E'+str(i)].value)
                 poqty = sheet['F'+str(i)].value
-                povssdata.append([value,[pops,poqty]])
+
+                if(poqty!=None):
+                    sumvssqty = sumvssqty + poqty
+                povssdata.append([value,[pops,poqty,sumvssqty]])
+                
                 pops = str(sheet['AA'+str(i)].value)
                 poqty = sheet['AB'+str(i)].value
-                poqaddata.append([value,[pops,poqty]])
+                
+                if(poqty!=None):
+                    sumqadqty = sumqadqty + poqty
+                poqaddata.append([value,[pops,poqty,sumqadqty]])
+
             elif cellvalueqad==value:                   #For every PO in listpo1 get the data from corresponding columns in QAD and store in poqaddata[] list
                 
                 pops = str(sheet['E'+str(i)].value)
                 poqty = sheet['F'+str(i)].value
-                povssdata.append([value,[pops,poqty]])
+
+                if(poqty!=None):
+                    sumvssqty = sumvssqty + poqty
+                povssdata.append([value,[pops,poqty,sumvssqty]])
+                
                 pops = str(sheet['AA'+str(i)].value)
                 poqty = sheet['AB'+str(i)].value
-                poqaddata.append([value,[pops,poqty]])
-
+                
+                if(poqty!=None):
+                    sumqadqty = sumqadqty + poqty
+                poqaddata.append([value,[pops,poqty,sumqadqty]])
 
         
 
 
 nb.create_sheet(index=0, title='LOC54')                 #Create a new sheet in recon file with the name
 sheetnew = nb.get_sheet_by_name('LOC54')                #Select the newly created sheet
+
 
 sheetnew['A1'] = 'PO Missing in QAD'
 sheetnew['A1'].font = openpyxl.styles.Font(size=12,bold=True)
@@ -101,11 +119,13 @@ for i in range(0,len(povssdata)):
 sheetnew['B1'] = 'Qty missing in QAD'
 sheetnew['B1'].font = openpyxl.styles.Font(size=12,bold=True)
 
+
 for i in range(0,len(povssdata)):
     if(poqaddata[i][1][1] == None):
         sheetnew['B'+str(i+2)] = povssdata[i][1][1]                     
     else:
         sheetnew['B'+str(i+2)] = povssdata[i][1][1]-poqaddata[i][1][1]           #Save difference in qty data in the sheet
+
     
 sheetnew['C1'] = 'Packaging Slip Number in VSS'
 sheetnew['C1'].font = openpyxl.styles.Font(size=12,bold=True)
@@ -130,10 +150,51 @@ sheetnew['F1'].font = openpyxl.styles.Font(size=12,bold=True)
 
 for i in range(0,len(poqaddata)):
     sheetnew['F'+str(i+2)] = poqaddata[i][1][1]               #Save QAD qty data in the sheet
-    
+
+totalvss = []    
 sheetnew['G1'] = 'Total in VSS'
 sheetnew['G1'].font = openpyxl.styles.Font(size=12,bold=True)
+
+for i in range(0,len(poqaddata)):
+    if (sheetnew['A'+str(i+3)].value!= sheetnew['A'+str(i+2)].value):
+        totalvss.append(povssdata[i][1][2])
+
+totalqad =[]
+
 sheetnew['H1'] = 'Total in QAD'
 sheetnew['H1'].font = openpyxl.styles.Font(size=12,bold=True)
 
+for i in range(0,len(poqaddata)):
+    if (sheetnew['A'+str(i+3)].value!= sheetnew['A'+str(i+2)].value):
+        totalqad.append(poqaddata[i][1][2])
+        
+totalmissing = []
+
+sheetnew['I1'] = 'Total Missing in QAD'
+sheetnew['I1'].font = openpyxl.styles.Font(size=12,bold=True)
+
+for i in range(0,len(poqaddata)):
+    if (sheetnew['A'+str(i+3)].value!= sheetnew['A'+str(i+2)].value):
+        totalmissing.append(povssdata[i][1][2]-poqaddata[i][1][2])
+
+
+mstart = 2
+mlist = []
+mlist.append(mstart)
+for i in range(0,len(povssdata)):
+    if (sheetnew['A'+str(i+3)].value!=sheetnew['A'+str(i+2)].value):
+        sheetnew.merge_cells('A'+str(mstart)+':A'+str(i+2))
+        sheetnew.merge_cells('G'+str(mstart)+':G'+str(i+2))
+        sheetnew.merge_cells('H'+str(mstart)+':H'+str(i+2))
+        sheetnew.merge_cells('I'+str(mstart)+':I'+str(i+2))
+        mstart = i+3
+        mlist.append(mstart)
+   
+for i in range(0,len(totalvss)):
+    sheetnew['G'+str(mlist[i])].value = totalvss[i]
+    sheetnew['H'+str(mlist[i])].value = totalqad[i]
+    sheetnew['I'+str(mlist[i])].value = totalmissing[i]
+    
 nb.save('recon.xlsx')
+
+
