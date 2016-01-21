@@ -3,15 +3,12 @@ using namespace std;
 
 void Merge(int Arr[], int start, int end, int mid)
 {
-    for(int i = start; i <= end; i++)
-    {
-        cout << Arr[i];
-    }
-    cout << endl;
+   
     
     int i = start, j = mid + 1; 
     int k = 0;
-    int Aux[end - start + 1];
+    int lengthaux = end - start + 1;
+    int Aux[lengthaux];
     
     while(i <= mid && j <= end)
     {
@@ -19,14 +16,14 @@ void Merge(int Arr[], int start, int end, int mid)
         {
             Aux[k] = Arr[j];
             k++;
-            i++;
+            
             j++;
         }
         else if(Arr[j] >= Arr[i])
         {
             Aux[k] = Arr[i];
             k++;
-            j++;
+            
             i++;
         }
             
@@ -43,9 +40,9 @@ void Merge(int Arr[], int start, int end, int mid)
         k++;
         j++;
     }
-    for(int l = 0; l < end - start + 1; l++)
+    for(int l = 0; l < lengthaux; l++)
     {
-        Arr[start] = Aux[0];
+        Arr[start] = Aux[l];
         start++;
     }
     
@@ -74,4 +71,5 @@ int main()
     {
         cout << Arry[i];
     }
+    cout << endl;
 }
