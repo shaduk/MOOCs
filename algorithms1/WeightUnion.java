@@ -45,15 +45,15 @@ public class WeightUnion
      
     public static void main(String[] args) {
         WeightUnion q = new WeightUnion(10);
+        q.union(6, 9);
+        q.union(8, 2);
+        q.union(5, 9);
+        q.union(0, 6);
+        q.union(9, 1);
+        q.union(5, 4);
+        q.union(3, 7);
+        q.union(8, 7);
         q.union(4, 3);
-        q.union(3, 8);
-        q.union(6, 5);
-        q.union(9, 4);
-        q.union(2, 1);
-        q.union(5, 0);
-        q.union(7, 2);
-        q.union(6, 1);
-        q.union(7, 3);
         for (int i = 0; i < 10; i++) 
             System.out.print(q.id[i] + " ");
             System.out.print("\n");
