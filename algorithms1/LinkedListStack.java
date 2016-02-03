@@ -1,7 +1,7 @@
 
 
-
 public class LinkedListStack
+
 {
     private Node first = null;
     
