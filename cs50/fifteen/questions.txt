@@ -1,0 +1,9 @@
+questions.txt
+
+Computer Science 50
+Problem Set 3
+
+0. Game allows 3X3 to 9X9 tiles
+1. 
+2. TODO
+3. TODO
